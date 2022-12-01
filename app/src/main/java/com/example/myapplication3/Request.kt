@@ -4,7 +4,7 @@ data class Request(
     val base_code: String,
     val documentation: String,
     val provider: String,
-    val rates: Rates,
+    val rates: Currency,
     val result: String,
     val terms_of_use: String,
     val time_eol_unix: Int,

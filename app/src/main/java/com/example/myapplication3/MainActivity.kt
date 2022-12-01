@@ -1,5 +1,6 @@
 package com.example.myapplication3
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.myapplication3.databinding.ActivityMainBinding
@@ -16,8 +17,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        fetchCurrencyData().start()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun fetchCurrencyData():Thread{
         return Thread{
             val url = URL("https://open.er-api.com/v6/latest/aud")
@@ -33,19 +37,19 @@ class MainActivity : AppCompatActivity() {
 
             }
             else{
-                binding.baseCurrency.text = "Error: Connection Failure"
+                binding.baseCurrency.text = "Connection Failure"
             }
         }
     }
 
-    private fun updateUI(request: Request?) {
+    private fun updateUI(request: Request) {
 
         runOnUiThread{
             kotlin.run{
                 binding.lastUpdated.text = request?.time_last_update_utc
-                binding.nzd.text = String.format("NZD: %.2f", request?.rates?.NZD)
-                binding.usd.text = String.format("USD: %.2f", request?.rates?.USD)
-                binding.gbp.text = String.format("GBP: %.2f", request?.rates?.GBP)
+                binding.nzd.text = String.format("NZD: %.2f", request.rates.NZD)
+                binding.usd.text = String.format("USD: %.2f", request.rates.USD)
+                binding.gbp.text = String.format("GBP: %.2f", request.rates.GBP)
             }
         }
 
